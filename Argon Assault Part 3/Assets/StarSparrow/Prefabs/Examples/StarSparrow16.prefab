@@ -150,7 +150,12 @@ MonoBehaviour:
   acceleration: 30
   deceleration: 30
   maxSpeed: 30
-  xRange: 20
+  xRange: 30
+  yRange: 30
+  controlPitchFactor: -10
+  positionYawFactor: -5
+  controlRollFactor: 5
+  positionPitchFactor: -2
 --- !u!1 &8066698612026904109
 GameObject:
   m_ObjectHideFlags: 0

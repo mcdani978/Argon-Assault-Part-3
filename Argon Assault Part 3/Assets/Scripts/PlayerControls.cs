@@ -7,19 +7,17 @@ public class PlayerControls : MonoBehaviour
 {
     [SerializeField] InputAction movement;
     [SerializeField] float moveSpeed = 10f;
-    [SerializeField] float acceleration = 5f; // Acceleration factor
-    [SerializeField] float deceleration = 5f; // Deceleration factor
-    [SerializeField] float maxSpeed = 15f; // Maximum speed limit
+    [SerializeField] float acceleration = 5f;
+    [SerializeField] float deceleration = 5f;
+    [SerializeField] float maxSpeed = 15f;
     [SerializeField] float xRange = 5f;
     [SerializeField] float yRange = 3.5f;
+    [SerializeField] float controlPitchFactor = -10f; 
+    [SerializeField] float positionPitchFactor = -2f;
+    [SerializeField] float controlRollFactor = 30f; 
 
-    private Vector2 currentSpeed = Vector2.zero; // Stores current movement speed
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    private Vector2 currentSpeed = Vector2.zero;
+    private Vector2 inputVector = Vector2.zero;
 
     void OnEnable()
     {
@@ -31,27 +29,32 @@ public class PlayerControls : MonoBehaviour
         movement.Disable();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        inputVector = movement.ReadValue<Vector2>();
         ProcessTranslation();
         ProcessRotation();
     }
 
     void ProcessRotation()
     {
-        transform.localRotation = Quaternion.Euler(-30f, 30f, 0f);
+
+        float pitchDueToPosition = transform.localPosition.y * positionPitchFactor;
+        float pitchDueToControlThrow = inputVector.y * controlPitchFactor;
+        float pitch = pitchDueToPosition + pitchDueToControlThrow;
+
+
+        float roll = -inputVector.x * controlRollFactor;
+
+
+        transform.localRotation = Quaternion.Euler(pitch, 0, roll);
     }
 
     void ProcessTranslation()
     {
-        Vector2 inputVector = movement.ReadValue<Vector2>();
-
-        // Smooth acceleration for the x and y axes
         currentSpeed.x = Mathf.MoveTowards(currentSpeed.x, inputVector.x * maxSpeed, acceleration * Time.deltaTime);
         currentSpeed.y = Mathf.MoveTowards(currentSpeed.y, inputVector.y * maxSpeed, acceleration * Time.deltaTime);
 
-        // Deceleration if no input is detected
         if (inputVector.x == 0)
         {
             currentSpeed.x = Mathf.MoveTowards(currentSpeed.x, 0, deceleration * Time.deltaTime);
@@ -66,11 +69,8 @@ public class PlayerControls : MonoBehaviour
         float yOffset = currentSpeed.y * Time.deltaTime;
 
         float rawXPos = transform.localPosition.x + xOffset;
-
         float clampedXPos = Mathf.Clamp(rawXPos, -xRange, xRange);
-
         float rawYPos = transform.localPosition.y + yOffset;
-
         float clampedYPos = Mathf.Clamp(rawYPos, -yRange, yRange);
 
         transform.localPosition = new Vector3(clampedXPos, clampedYPos, transform.localPosition.z);
