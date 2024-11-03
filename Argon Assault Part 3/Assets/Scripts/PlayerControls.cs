@@ -17,6 +17,9 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] float positionPitchFactor = -2f;
     [SerializeField] float controlRollFactor = 30f;
 
+    [SerializeField] ParticleSystem laserRight;
+    [SerializeField] ParticleSystem laserLeft;
+
     private Vector2 currentSpeed = Vector2.zero;
     private Vector2 inputVector = Vector2.zero;
 
@@ -82,11 +85,28 @@ public class PlayerControls : MonoBehaviour
         if (fire.ReadValue<float>() > 0.5f)
         {
             Debug.Log("I'm Shooting");
+            if (!laserRight.isPlaying)
+            {
+                laserRight.Stop();
+                laserRight.Play();
+            }
+            if (!laserLeft.isPlaying)
+            {
+                laserLeft.Stop();
+                laserLeft.Play();
+            }
         }
         else
         {
             Debug.Log("I'm not shooting");
+            if (laserRight.isPlaying)
+            {
+                laserRight.Stop();
+            }
+            if (laserLeft.isPlaying)
+            {
+                laserLeft.Stop();
+            }
         }
     }
 }
-

@@ -216,6 +216,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!198 &741493505 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2200301953905501936, guid: 32c06be067b8f7b4d80be9396f1d014e, type: 3}
+  m_PrefabInstance: {fileID: 2484960310469425843}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1092624271
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,6 +424,11 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 1140105838681110334, guid: 32c06be067b8f7b4d80be9396f1d014e, type: 3}
   m_PrefabInstance: {fileID: 2484960310469425843}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &1717231744 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7694665664331298794, guid: 32c06be067b8f7b4d80be9396f1d014e, type: 3}
+  m_PrefabInstance: {fileID: 2484960310469425843}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1989571759
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,6 +627,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4074395423747812989, guid: 32c06be067b8f7b4d80be9396f1d014e, type: 3}
+      propertyPath: laserLeft
+      value: 
+      objectReference: {fileID: 741493505}
+    - target: {fileID: 4074395423747812989, guid: 32c06be067b8f7b4d80be9396f1d014e, type: 3}
+      propertyPath: laserRight
+      value: 
+      objectReference: {fileID: 1717231744}
     - target: {fileID: 4074395423747812989, guid: 32c06be067b8f7b4d80be9396f1d014e, type: 3}
       propertyPath: fire.m_Name
       value: Fire
