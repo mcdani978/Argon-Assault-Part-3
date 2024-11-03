@@ -6,15 +6,16 @@ using UnityEngine.InputSystem;
 public class PlayerControls : MonoBehaviour
 {
     [SerializeField] InputAction movement;
+    [SerializeField] InputAction fire;
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] float acceleration = 5f;
     [SerializeField] float deceleration = 5f;
     [SerializeField] float maxSpeed = 15f;
     [SerializeField] float xRange = 5f;
     [SerializeField] float yRange = 3.5f;
-    [SerializeField] float controlPitchFactor = -10f; 
+    [SerializeField] float controlPitchFactor = -10f;
     [SerializeField] float positionPitchFactor = -2f;
-    [SerializeField] float controlRollFactor = 30f; 
+    [SerializeField] float controlRollFactor = 30f;
 
     private Vector2 currentSpeed = Vector2.zero;
     private Vector2 inputVector = Vector2.zero;
@@ -22,11 +23,13 @@ public class PlayerControls : MonoBehaviour
     void OnEnable()
     {
         movement.Enable();
+        fire.Enable(); // Enable the fire action
     }
 
     private void OnDisable()
     {
         movement.Disable();
+        fire.Disable(); // Disable the fire action
     }
 
     void Update()
@@ -34,18 +37,16 @@ public class PlayerControls : MonoBehaviour
         inputVector = movement.ReadValue<Vector2>();
         ProcessTranslation();
         ProcessRotation();
+        ProcessFiring();
     }
 
     void ProcessRotation()
     {
-
         float pitchDueToPosition = transform.localPosition.y * positionPitchFactor;
         float pitchDueToControlThrow = inputVector.y * controlPitchFactor;
         float pitch = pitchDueToPosition + pitchDueToControlThrow;
 
-
         float roll = -inputVector.x * controlRollFactor;
-
 
         transform.localRotation = Quaternion.Euler(pitch, 0, roll);
     }
@@ -75,4 +76,17 @@ public class PlayerControls : MonoBehaviour
 
         transform.localPosition = new Vector3(clampedXPos, clampedYPos, transform.localPosition.z);
     }
+
+    void ProcessFiring()
+    {
+        if (fire.ReadValue<float>() > 0.5f)
+        {
+            Debug.Log("I'm Shooting");
+        }
+        else
+        {
+            Debug.Log("I'm not shooting");
+        }
+    }
 }
+
